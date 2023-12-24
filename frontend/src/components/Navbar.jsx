@@ -12,7 +12,6 @@ import {
   ModalOverlay,
   Modal,
   ModalContent,
-  ModalHeader,
   ModalCloseButton,
   ModalBody,
   ModalFooter,
@@ -36,6 +35,9 @@ function Navbar() {
     useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [sendOtp, setSendOtp] = useState(false);
+  const [verifyOtp, setVerifyOtp] = useState("");
+
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
 
@@ -43,7 +45,16 @@ function Navbar() {
       setPhoneNumber(inputValue);
     }
   };
+
+  const handleOtpInput = (e) => {
+    const otpInput = e.target.value;
+    if (otpInput.length <= 6) {
+      setVerifyOtp(otpInput);
+    }
+  };
   const isButtonDisabled = phoneNumber.length < 10;
+  const isOtpButtonDisabled = verifyOtp.length < 6;
+
   return (
     <>
       <Box w="100%" h="80px" backgroundColor="black">
@@ -463,15 +474,39 @@ function Navbar() {
 
               <Box width={"50%"} m={"auto"} mt={"20px"} textAlign={"center"}>
                 <Stack spacing={4}>
-                  <InputGroup>
-                    <InputLeftAddon padding={"20px"} borderColor={"gray.400"}>
-                      +91
-                    </InputLeftAddon>
+                  {!sendOtp ? (
+                    <InputGroup>
+                      <InputLeftAddon padding={"20px"} borderColor={"gray.400"}>
+                        +91
+                      </InputLeftAddon>
+                      <Input
+                        value={phoneNumber}
+                        onChange={handleInputChange}
+                        type="number"
+                        placeholder="Enter Number"
+                        color={"gray.700"}
+                        borderRadius="1px 0 0 1px"
+                        outline="none"
+                        borderColor={"gray.400"}
+                        _hover={false}
+                        _focus={{
+                          borderColor: "gray.400",
+                          outline: "none",
+                          boxShadow: "none",
+                          caretColor: "#F50057",
+                        }}
+                        _placeholder={{
+                          color: "gray.600",
+                        }}
+                        padding={"20px"}
+                      />
+                    </InputGroup>
+                  ) : (
                     <Input
-                      value={phoneNumber}
-                      onChange={handleInputChange}
                       type="number"
-                      placeholder="Enter Number"
+                      value={verifyOtp}
+                      onChange={handleOtpInput}
+                      placeholder="Enter OTP"
                       color={"gray.700"}
                       borderRadius="1px 0 0 1px"
                       outline="none"
@@ -488,18 +523,31 @@ function Navbar() {
                       }}
                       padding={"20px"}
                     />
-                  </InputGroup>
+                  )}
                 </Stack>
 
-                <Button
-                  backgroundColor={"black"}
-                  color={"white"}
-                  _hover={false}
-                  mt={"20px"}
-                  isDisabled={isButtonDisabled}
-                >
-                  SEND ME OTP
-                </Button>
+                {!sendOtp ? (
+                  <Button
+                    backgroundColor={"black"}
+                    color={"white"}
+                    _hover={false}
+                    mt={"20px"}
+                    isDisabled={isButtonDisabled}
+                    onClick={() => setSendOtp(true)}
+                  >
+                    SEND ME OTP
+                  </Button>
+                ) : (
+                  <Button
+                    backgroundColor={"black"}
+                    color={"white"}
+                    _hover={false}
+                    mt={"20px"}
+                    isDisabled={isOtpButtonDisabled}
+                  >
+                    Verify OTP
+                  </Button>
+                )}
               </Box>
               <Box mt={"20px"}>
                 <Text fontSize={"14px"}>

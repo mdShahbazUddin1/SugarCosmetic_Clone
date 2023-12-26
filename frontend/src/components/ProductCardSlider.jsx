@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -14,11 +14,35 @@ import {
   ButtonGroup,
   Button,
   CardFooter,
+  Progress,
 } from "@chakra-ui/react";
-import { CiHeart } from "react-icons/ci";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { AiFillHeart } from "react-icons/ai";
 
 function ProductCardSlider({ productDetails }) {
+  const [likedProducts, setLikedProducts] = useState([]);
+  const [loadingStates, setLoadingStates] = useState(
+    Array(productDetails.length).fill(false)
+  );
+
+  const handleLikeClick = (index) => {
+    const newLikedProducts = [...likedProducts];
+    newLikedProducts[index] = !newLikedProducts[index];
+    setLikedProducts(newLikedProducts);
+  };
+
+  const handleAddToBagClick = (index) => {
+    const newLoadingStates = [...loadingStates];
+    newLoadingStates[index] = true;
+    setLoadingStates(newLoadingStates);
+
+    setTimeout(() => {
+      const updatedLoadingStates = [...newLoadingStates];
+      updatedLoadingStates[index] = false;
+      setLoadingStates(updatedLoadingStates);
+    }, 2000);
+  };
+
   const PrevArrow = ({ onClick }) => (
     <IconButton
       icon={<FaChevronLeft />}
@@ -129,8 +153,12 @@ function ProductCardSlider({ productDetails }) {
                         _hover={false}
                         variant="unstyled"
                         p={1}
+                        onClick={() => handleLikeClick(index)}
                       >
-                        <CiHeart fontSize="30px" />
+                        <AiFillHeart
+                          fontSize="30px"
+                          color={likedProducts[index] ? "#E91E63" : "#BDBDBD"}
+                        />
                       </Button>
                       <Button
                         variant="unstyled"
@@ -141,8 +169,23 @@ function ProductCardSlider({ productDetails }) {
                         fontWeight="bold"
                         fontSize="14px"
                         _hover={false}
+                        onClick={() => handleAddToBagClick(index)}
                       >
                         ADD TO BAG
+                        {loadingStates[index] && (
+                          <Progress
+                            value={100}
+                            size="xs"
+                            colorScheme="black"
+                            bg={"#E91E63"}
+                            isIndeterminate
+                            animationDuration={1.8}
+                            width={"80px"}
+                            m={"auto"}
+                            mt={"2px"}
+                            mb={"5px"}
+                          />
+                        )}
                       </Button>
                     </ButtonGroup>
                   </CardFooter>

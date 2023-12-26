@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Image } from "@chakra-ui/react";
 import React from "react";
 import Carousel from "../components/Carousel";
 import ProductCardSlider from "../components/ProductCardSlider";
@@ -85,6 +85,43 @@ function HomeScreen() {
           bg={`url("https://media.sugarcosmetics.com/upload/VTOBackgroungTexture.png")`}
         >
           <ProductCardSlider productDetails={productCardSlide} />
+        </Box>
+        <Box w={"95%"} m={"auto"} border={"1px solid white"} mt={"40px"}>
+          <Box>
+            <Flex alignItems={"center"} justifyContent={"center"}>
+              <Box w={"50px"} border={"1px solid #E91E63"} mr={"20px"}></Box>
+              <Box color={"black"} fontSize={"20px"} fontWeight={"bold"}>
+                HOT DEALS
+              </Box>
+              <Box w={"50px"} border={"1px solid #E91E63"} ml={"20px"}></Box>
+            </Flex>
+            <Grid templateColumns="repeat(3, 1fr)" gap={10} mt={"20px"}>
+              <GridItem w="100%" h="250px" bg={"blue"} borderRadius={"10px"}>
+                <Image
+                  src="https://d32baadbbpueqt.cloudfront.net/Homepage/a8997373-1d93-460b-81a2-cadb84ab5cca.gif"
+                  w={"100%"}
+                  h={"100%"}
+                  borderRadius={"10px"}
+                />
+              </GridItem>
+              <GridItem w="100%" h="250px" bg={"blue"} borderRadius={"10px"}>
+                <Image
+                  src="https://in.sugarcosmetics.com/_next/image?url=https://d32baadbbpueqt.cloudfront.net/Homepage/72202ad7-4872-4d81-b61e-09dc2621d887.jpg&w=1920&q=75"
+                  w={"100%"}
+                  h={"100%"}
+                  borderRadius={"10px"}
+                />
+              </GridItem>
+              <GridItem w="100%" h="250px" bg={"blue"} borderRadius={"10px"}>
+                <Image
+                  src="https://d32baadbbpueqt.cloudfront.net/Homepage/9b92bb73-edd9-4b40-84be-c0a3f9c32d7c.gif"
+                  w={"100%"}
+                  h={"100%"}
+                  borderRadius={"10px"}
+                />
+              </GridItem>
+            </Grid>
+          </Box>
         </Box>
       </Box>
     </>

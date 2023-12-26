@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Twilio credentials
 const accountSid = "AC15b4450db39fe7206fd5cb9cad091569";
-const authToken = "9f37da3ac1903ec84481b72a1aad9af4";
+const authToken = "21434932699ef3890830bf67082cc30b";
 const twilioClient = twilio(accountSid, authToken);
 
 // Generate a random 6-digit OTP
@@ -20,64 +20,95 @@ const generateOTP = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
+const sendTwilioOTP = async (phoneNumber, otp) => {
+  try {
+    // Send OTP via Twilio SMS
+    const message = await twilioClient.messages.create({
+      body: `Your OTP is: ${otp}`,
+      from: "+17012039075",
+      to: phoneNumber,
+    });
+
+    console.log(`OTP sent to ${phoneNumber}: ${message.sid}`);
+    return "OTP sent successfully";
+  } catch (error) {
+    console.error(`Error sending OTP: ${error}`);
+    throw new Error("Error sending OTP");
+  }
+};
+
 app.post("/send-otp", async (req, res) => {
   const phoneNumber = req.body.phoneNumber;
-  // Generate and store OTP
-  const otp = generateOTP();
-  const hasOtp = await bcrypt.hash(otp, 12);
 
   try {
-    // Update the user model with the generated OTP
-    const user = new UserModel({ phoneNumber, otp: hasOtp });
+    // Check if the user already exists in the database
+    const existingUser = await UserModel.findOne({ phoneNumber });
 
-    await user.save();
+    if (existingUser) {
+      // User already exists, just send the OTP
+      const otp = generateOTP();
+      const hashedOtp = await bcrypt.hash(otp, 12);
 
-    // Send OTP via Twilio SMS
-    twilioClient.messages
-      .create({
-        body: `Your OTP is: ${otp}`,
-        from: "+17012039075",
-        to: phoneNumber,
-      })
-      .then((message) => {
-        console.log(`OTP sent to ${phoneNumber}: ${message.sid}`);
-        res.send("OTP sent successfully");
-      })
-      .catch((error) => {
-        console.error(`Error sending OTP: ${error.message}`);
-        res.status(500).send("Error sending OTP");
-      });
+      existingUser.otp = hashedOtp;
+      await existingUser.save();
+
+      // Send OTP via Twilio
+      const result = await sendTwilioOTP(phoneNumber, otp);
+      res.send(result);
+    } else {
+      // User does not exist, register the user with the provided phone number and OTP
+      const otp = generateOTP();
+      const hashedOtp = await bcrypt.hash(otp, 12);
+
+      const newUser = new UserModel({ phoneNumber, otp: hashedOtp });
+      await newUser.save();
+
+      // Send OTP via Twilio
+      const result = await sendTwilioOTP(phoneNumber, otp);
+      res.send(result);
+    }
   } catch (error) {
-    console.error(`Error updating user: ${error.message}`);
-    res.status(500).send("Error updating user");
+    console.error(`Error checking/updating user: ${error.message}`);
+    res.status(500).send("Error checking/updating user");
   }
 });
+
 app.post("/verify-otp", async (req, res) => {
   const userEnteredOTP = req.body.otp;
+  const phoneNumber = req.body.phoneNumber;
 
   try {
-    // Retrieve the user from the database using the OTP
-    const user = await UserModel.findOne({ otp: userEnteredOTP });
-
+    // Retrieve the user from the database using the phone number
+    const user = await UserModel.findOne({ phoneNumber: phoneNumber });
+    console.log("User Object:", user);
     if (!user) {
-      return res.status(404).send("OTP is incorrect");
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    console.log("Stored OTP:", user.otp);
+    console.log("Entered OTP:", userEnteredOTP);
+    // Check if the user has an OTP stored
+    if (user.otp === undefined) {
+      return res.status(400).json({ error: "OTP not available for the user" });
     }
 
     // Compare user-entered OTP with stored hashed OTP
-    if (bcrypt.compareSync(userEnteredOTP, user.otp)) {
+    const otpVerify = await bcrypt.compare(userEnteredOTP, user.otp);
+
+    if (otpVerify) {
       // Clear the OTP in the user model after successful verification
       user.otp = undefined;
       await user.save();
 
       // Generate a JWT token and send it in the response
       const token = await jwt.sign({ userId: user._id }, "batman");
-      res.status(200).send({ msg: "OTP Verified", token });
+      res.status(200).json({ message: "OTP Verified", token });
     } else {
-      res.status(400).send("Invalid OTP");
+      res.status(400).json({ error: "Invalid OTP" });
     }
   } catch (error) {
     console.error(`Error verifying OTP: ${error.message}`);
-    res.status(500).send("Error verifying OTP");
+    res.status(500).json({ error: "Error verifying OTP" });
   }
 });
 

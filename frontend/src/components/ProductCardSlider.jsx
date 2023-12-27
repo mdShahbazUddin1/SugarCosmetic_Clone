@@ -15,6 +15,7 @@ import {
   Button,
   CardFooter,
   Progress,
+  useToast,
 } from "@chakra-ui/react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { AiFillHeart } from "react-icons/ai";
@@ -24,11 +25,31 @@ function ProductCardSlider({ productDetails }) {
   const [loadingStates, setLoadingStates] = useState(
     Array(productDetails.length).fill(false)
   );
+  const toast = useToast();
 
   const handleLikeClick = (index) => {
     const newLikedProducts = [...likedProducts];
     newLikedProducts[index] = !newLikedProducts[index];
     setLikedProducts(newLikedProducts);
+    if (newLikedProducts[index]) {
+      toast({
+        title: `Added to wishlist`,
+        position: "bottom-left",
+        isClosable: true,
+        status: "success",
+        variant: "solid",
+        duration: 5000,
+      });
+    } else {
+      toast({
+        title: `Removed from wishlist`,
+        position: "bottom-left",
+        isClosable: true,
+        status: "warning", // You can use a different status for removal
+        variant: "solid",
+        duration: 5000,
+      });
+    }
   };
 
   const handleAddToBagClick = (index) => {
@@ -40,6 +61,14 @@ function ProductCardSlider({ productDetails }) {
       const updatedLoadingStates = [...newLoadingStates];
       updatedLoadingStates[index] = false;
       setLoadingStates(updatedLoadingStates);
+      toast({
+        title: "Item Added Successfully",
+        position: "bottom-left",
+        isClosable: true,
+        status: "success",
+        variant: "solid",
+        duration: 5000,
+      });
     }, 2000);
   };
 

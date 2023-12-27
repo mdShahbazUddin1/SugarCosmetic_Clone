@@ -37,7 +37,7 @@ const productCardSlide = [
     title: "Contour De Force Eyes And Face Palette",
     discountprice: "799.00",
     price: "671.00",
-    off: "(16 % Off)",
+    off: "(16% Off)",
   },
   {
     image:
@@ -45,7 +45,7 @@ const productCardSlide = [
     title: "Contour De Force Eyes And Face Palette",
     discountprice: "799.00",
     price: "671.00",
-    off: "(16 % Off)",
+    off: "(16% Off)",
   },
   {
     image:
@@ -53,7 +53,7 @@ const productCardSlide = [
     title: "Contour De Force Eyes And Face Palette",
     discountprice: "799.00",
     price: "671.00",
-    off: "(16 % Off)",
+    off: "(16% Off)",
   },
   {
     image:
@@ -61,7 +61,7 @@ const productCardSlide = [
     title: "Contour De Force Eyes And Face Palette",
     discountprice: "799.00",
     price: "671.00",
-    off: "(16 % Off)",
+    off: "(16% Off)",
   },
   {
     image:
@@ -69,7 +69,7 @@ const productCardSlide = [
     title: "Contour De Force Eyes And Face Palette",
     discountprice: "799.00",
     price: "671.00",
-    off: "(16 % Off)",
+    off: "(16% Off)",
   },
 ];
 

@@ -13,7 +13,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-// import { Link } from "react-router-dom";
 import { Search2Icon } from "@chakra-ui/icons";
 import { CiHeart } from "react-icons/ci";
 import { BiSolidUserCircle } from "react-icons/bi";
@@ -30,7 +29,6 @@ const productsLink = [
   { path: "/lips", title: "LIPS" },
   { path: "/eyes", title: "EYES" },
   { path: "/face", title: "FACE" },
-  { path: "/nails", title: "NAILS" },
   { path: "/nails", title: "NAILS" },
   { path: "/skincare", title: "SKINCARE" },
   { path: "/accessories", title: "ACCESSORIES" },
@@ -131,10 +129,15 @@ function Navbar() {
                       <Text onClick={onOpen}>Login/Register</Text>
                     ) : (
                       <>
-                        <Text>Hi, Sugar Fan</Text>
+                        <NavLink to={"/account/order"}>
+                          <Text>Hi, Sugar Fan</Text>
+                        </NavLink>
+
+                        <IoIosArrowDown
+                          onClick={() => setIsLogout(!isLogout)}
+                        />
                       </>
                     )}
-                    <IoIosArrowDown onClick={() => setIsLogout(!isLogout)} />
                   </Flex>
                   {isLogout ? (
                     <Box
@@ -211,11 +214,15 @@ function Navbar() {
                     <>
                       <Box
                         pos={"relative"}
-                        key={index}
+                        key={item.path}
                         borderColor={"#212121"}
                         borderWidth={"3px"}
                         borderStyle={"solid"}
                         padding={"10px"}
+                        _hover={{
+                          color: "#E91E63",
+                          transition: "all .5s ease-in-out",
+                        }}
                       >
                         <NavLink to={item.path}>{item.title}</NavLink>
                       </Box>

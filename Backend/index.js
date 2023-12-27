@@ -5,14 +5,15 @@ const { connection } = require("./config/DB");
 const { UserModel } = require("./model/user.model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 // Twilio credentials
-const accountSid = "AC15b4450db39fe7206fd5cb9cad091569";
-const authToken = "21434932699ef3890830bf67082cc30b";
+const accountSid = process.env.accountSid;
+const authToken = process.env.authToken;
 const twilioClient = twilio(accountSid, authToken);
 
 // Generate a random 6-digit OTP

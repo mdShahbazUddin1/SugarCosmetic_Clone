@@ -15,12 +15,15 @@ import {
   Text,
   Button,
   Center,
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 function LoginModal({ isOpen, onClose, token, setVerifiedToken }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [sendOtp, setSendOtp] = useState(false);
+  const [sendOtpLoading, setSendOtpLoading] = useState(false);
+  const [verifyOtpLoading, setVerifyOtpLoading] = useState(false);
   const [verifyOtp, setVerifyOtp] = useState("");
 
   const handleInputChange = (event) => {
@@ -38,7 +41,9 @@ function LoginModal({ isOpen, onClose, token, setVerifiedToken }) {
   };
   const isButtonDisabled = phoneNumber.length < 10;
   const isOtpButtonDisabled = verifyOtp.length < 6;
+
   const sendOtpPhone = async () => {
+    setSendOtpLoading(true);
     try {
       const response = await fetch(`http://localhost:8080/send-otp`, {
         method: "POST",
@@ -48,9 +53,11 @@ function LoginModal({ isOpen, onClose, token, setVerifiedToken }) {
         body: JSON.stringify({ phoneNumber: "+91" + phoneNumber }),
       });
       if (response.ok) {
-        alert("otp send ");
+        setSendOtpLoading(false);
+        setSendOtp(true);
       }
     } catch (error) {
+      setSendOtpLoading(true);
       console.log(error);
     }
   };
@@ -58,6 +65,7 @@ function LoginModal({ isOpen, onClose, token, setVerifiedToken }) {
   useEffect(() => {}, [token]);
 
   const sendVerifyOtpPhone = async () => {
+    setVerifyOtpLoading(true);
     try {
       const response = await fetch(`http://localhost:8080/verify-otp`, {
         method: "POST",
@@ -74,13 +82,16 @@ function LoginModal({ isOpen, onClose, token, setVerifiedToken }) {
         const data = await response.json();
         const newToken = data.token;
         setVerifiedToken(newToken);
-        alert("OTP Verified successfully");
+        setVerifyOtpLoading(false);
         setSendOtp(false);
+        onClose();
       }
     } catch (error) {
+      setVerifyOtpLoading(true);
       console.log(error);
     }
   };
+
   return (
     <>
       <Modal
@@ -176,11 +187,14 @@ function LoginModal({ isOpen, onClose, token, setVerifiedToken }) {
                   mt={"20px"}
                   isDisabled={isButtonDisabled}
                   onClick={() => {
-                    setSendOtp(true);
                     sendOtpPhone();
                   }}
                 >
-                  SEND ME OTP
+                  {sendOtpLoading ? (
+                    <Spinner fontSize={"12px"} />
+                  ) : (
+                    "SEND ME OTP"
+                  )}
                 </Button>
               ) : (
                 <Button
@@ -193,7 +207,7 @@ function LoginModal({ isOpen, onClose, token, setVerifiedToken }) {
                     sendVerifyOtpPhone();
                   }}
                 >
-                  Verify OTP
+                  {verifyOtpLoading ? <Spinner /> : "Verify OTP"}
                 </Button>
               )}
             </Box>

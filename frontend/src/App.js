@@ -2,6 +2,10 @@ import Navbar from "./components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomeScreen from "./pages/HomeScreen";
 import AccountOrder from "./pages/AccountOrder";
+import Order from "./pages/Order";
+import Addresses from "./pages/Addresses";
+import Wishlist from "./pages/Wishlist";
+import Referral from "./pages/Referral";
 
 function App() {
   return (
@@ -10,7 +14,11 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<HomeScreen />} />
-          <Route path="/account/order" element={<AccountOrder />} />
+          <Route path="/account/*" element={<AccountOrder />} />
+          <Route path="/orders" element={<Order />} />
+          <Route path="/addresses" element={<Addresses />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/referral" element={<Referral />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -101,6 +101,7 @@ function Navbar() {
                         paddingLeft="10px"
                         padding={"20px"}
                         cursor={"pointer"}
+                        bg={"white"}
                       >
                         <Icon as={Search2Icon} color="gray.800" />
                         <Text color="gray.800" ml="10px">
@@ -129,7 +130,7 @@ function Navbar() {
                       <Text onClick={onOpen}>Login/Register</Text>
                     ) : (
                       <>
-                        <NavLink to={"/account/order"}>
+                        <NavLink to={"/account"}>
                           <Text>Hi, Sugar Fan</Text>
                         </NavLink>
 
@@ -211,22 +212,22 @@ function Navbar() {
                   color={"white"}
                 >
                   {productsLink.map((item, index) => (
-                    <>
-                      <Box
-                        pos={"relative"}
-                        key={item.path}
-                        borderColor={"#212121"}
-                        borderWidth={"3px"}
-                        borderStyle={"solid"}
-                        padding={"10px"}
-                        _hover={{
-                          color: "#E91E63",
-                          transition: "all .5s ease-in-out",
-                        }}
-                      >
-                        <NavLink to={item.path}>{item.title}</NavLink>
-                      </Box>
-                    </>
+                    <Box
+                      key={index}
+                      pos={"relative"}
+                      borderColor={"#212121"}
+                      borderWidth={"3px"}
+                      borderStyle={"solid"}
+                      padding={"10px"}
+                      _hover={{
+                        color: "#E91E63",
+                        transition: "all .5s ease-in-out",
+                      }}
+                    >
+                      <NavLink to={item.path} key={index}>
+                        {item.title}
+                      </NavLink>
+                    </Box>
                   ))}
                 </Flex>
               </Box>

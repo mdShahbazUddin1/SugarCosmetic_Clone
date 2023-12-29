@@ -6,12 +6,15 @@ import Order from "./pages/Order";
 import Addresses from "./pages/Addresses";
 import Wishlist from "./pages/Wishlist";
 import Referral from "./pages/Referral";
+import Snowflake from "./components/Snowflake";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <Snowflake />
         <Navbar />
+
         <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/account/*" element={<AccountOrder />} />

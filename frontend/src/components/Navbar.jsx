@@ -19,10 +19,11 @@ import { BiSolidUserCircle } from "react-icons/bi";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { BiSolidOffer } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/UserContext";
 import LoginModal from "./LoginModal";
 import ProductSearchModal from "./ProductSearchModal";
+import Snowflake from "./Snowflake";
 
 const productsLink = [
   { path: "/x-mas-glow-makeup-kit", title: "X MAS GLOW MAKEUP KIT" },
@@ -39,11 +40,16 @@ const productsLink = [
 ];
 
 function Navbar() {
+  const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { token, setVerifiedToken } = useContext(AuthContext);
   const [isSearchSuggestionsVisible, setSearchSuggestionsVisible] =
     useState(false);
   const [isLogout, setIsLogout] = useState(false);
+  const handleHeartIconClick = () => {
+    // Redirect to the wishlist component in the user account
+    navigate("/account/wishlist");
+  };
   return (
     <>
       <Box width={"100%"} position={"fixed"} top={0} zIndex={"999"}>
@@ -130,9 +136,9 @@ function Navbar() {
                       <Text onClick={onOpen}>Login/Register</Text>
                     ) : (
                       <>
-                        <NavLink to={"/account"}>
-                          <Text>Hi, Sugar Fan</Text>
-                        </NavLink>
+                        <Text onClick={() => navigate("/account/orders")}>
+                          Hi, Sugar Fan
+                        </Text>
 
                         <IoIosArrowDown
                           onClick={() => setIsLogout(!isLogout)}
@@ -169,7 +175,11 @@ function Navbar() {
                 <Box width={"33%"}>
                   <Flex alignItems={"center"} justifyContent={"space-between"}>
                     <Box>
-                      <CiHeart fontSize={"25px"} cursor={"pointer"} />
+                      <CiHeart
+                        fontSize={"25px"}
+                        cursor={"pointer"}
+                        onClick={handleHeartIconClick}
+                      />
                     </Box>
                     <Box pos={"relative"}>
                       <IoBagHandleOutline
@@ -203,7 +213,11 @@ function Navbar() {
             token={token}
             setVerifiedToken={setVerifiedToken}
           />
-          <Box width={"100%"} backgroundColor={"#212121"} height={"50px"}>
+          <Box
+            width={"100%"}
+            backgroundColor={"rgb(20, 20, 20)"}
+            height={"50px"}
+          >
             <Flex alignItems={"center"} justifyContent={"center"} h={"100%"}>
               <Box width={"97%"} margin={"auto"}>
                 <Flex
@@ -215,9 +229,6 @@ function Navbar() {
                     <Box
                       key={index}
                       pos={"relative"}
-                      borderColor={"#212121"}
-                      borderWidth={"3px"}
-                      borderStyle={"solid"}
                       padding={"10px"}
                       _hover={{
                         color: "#E91E63",

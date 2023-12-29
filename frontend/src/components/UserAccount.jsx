@@ -73,6 +73,9 @@ function UserAccount() {
             <Text color={"white"} fontSize={"12px"} fontWeight={"bold"}>
               +91 9931797391
             </Text>
+            <Text color={"white"} fontSize={"12px"} fontWeight={"bold"}>
+              uddinshahbaz156@gmail.com
+            </Text>
           </Box>
           <Box width={"100%"} bg={"white"} borderTopRadius={"15px"} mt={"15px"}>
             <Box w={"90%"} m={"auto"} p={"12px 0 12px 0"}>

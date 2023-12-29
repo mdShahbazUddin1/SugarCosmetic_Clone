@@ -23,7 +23,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/UserContext";
 import LoginModal from "./LoginModal";
 import ProductSearchModal from "./ProductSearchModal";
-import Snowflake from "./Snowflake";
 
 const productsLink = [
   { path: "/x-mas-glow-makeup-kit", title: "X MAS GLOW MAKEUP KIT" },

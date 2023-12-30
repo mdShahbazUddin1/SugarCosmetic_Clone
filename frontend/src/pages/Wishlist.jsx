@@ -115,7 +115,7 @@ function Wishlist() {
   };
   return (
     <>
-      <Box w={"75%"} h={"686px"} bg={"white"} borderRadius={"10px"}>
+      <Box w={"73%"} bg={"#F5F5F5"} borderRadius={"10px"}>
         {productDetails && productDetails.length === 0 ? (
           <Flex
             h={"100%"}

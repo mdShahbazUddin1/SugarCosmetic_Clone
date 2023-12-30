@@ -1,4 +1,11 @@
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogCloseButton,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
   Button,
   Flex,
@@ -7,13 +14,18 @@ import {
   Input,
   InputGroup,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoIosArrowDown } from "react-icons/io";
+import { MotionBox } from "../components/MotionBox";
 import RoutingLocationNav from "../components/RoutingLocationNav";
 
 function Bag() {
+  const [quantity, setQuantity] = useState(1);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
   return (
     <Box mt={"130px"}>
       <RoutingLocationNav />
@@ -56,10 +68,10 @@ function Bag() {
                               textDecorationLine={"line-through"}
                               fontSize={"12px"}
                             >
-                              rs233
+                              ₹233
                             </Text>
                             <Text ml={"10px"} fontWeight={"bold"}>
-                              rs355
+                              ₹355
                             </Text>
                           </Flex>
                         </Box>
@@ -107,44 +119,109 @@ function Bag() {
                             textDecorationLine={"line-through"}
                             fontSize={"12px"}
                           >
-                            rs233
+                            ₹233
                           </Text>
                           <Text ml={"10px"} fontWeight={"bold"}>
-                            rs355
+                            ₹355
                           </Text>
                         </Flex>
                       </Box>
                     </Flex>
 
                     <Flex
-                      w={"33%"}
+                      w={"40%"}
                       alignItems={"center"}
                       justifyContent={"space-between"}
                     >
-                      <RiDeleteBin6Line fontSize={"16px"} />
+                      {quantity > 0 ? (
+                        <MotionBox
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: quantity > 0 ? 1 : 0, x: 0 }}
+                          exit={{ opacity: 0, x: -20 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <RiDeleteBin6Line />
+                        </MotionBox>
+                      ) : (
+                        ""
+                      )}
                       <Flex
                         alignItems={"center"}
                         border={"1px solid #EEEEEE"}
                         borderRadius={"10px"}
                       >
-                        <Button
-                          borderRadius={"0"}
-                          _hover={false}
-                          bg={"transparent"}
-                        >
-                          -
-                        </Button>
+                        {quantity < 1 ? (
+                          <>
+                            <MotionBox
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: 20 }}
+                              transition={{ duration: 0.5 }}
+                            >
+                              <Button
+                                borderRadius={"0"}
+                                _hover={false}
+                                bg={"transparent"}
+                              >
+                                <RiDeleteBin6Line
+                                  fontSize={"16px"}
+                                  onClick={onOpen}
+                                />
+                              </Button>
+                            </MotionBox>
+
+                            <AlertDialog
+                              motionPreset="slideInBottom"
+                              leastDestructiveRef={cancelRef}
+                              onClose={onClose}
+                              isOpen={isOpen}
+                              isCentered
+                            >
+                              <AlertDialogOverlay />
+
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  Discard Changes?
+                                </AlertDialogHeader>
+                                <AlertDialogCloseButton />
+                                <AlertDialogBody>
+                                  Are you sure you want to discard all of your
+                                  notes? 44 words will be deleted.
+                                </AlertDialogBody>
+                                <AlertDialogFooter>
+                                  <Button ref={cancelRef} onClick={onClose}>
+                                    No
+                                  </Button>
+                                  <Button colorScheme="red" ml={3}>
+                                    Yes
+                                  </Button>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </>
+                        ) : (
+                          <Button
+                            borderRadius={"0"}
+                            _hover={false}
+                            bg={"transparent"}
+                            onClick={() => setQuantity(quantity - 1)}
+                          >
+                            -
+                          </Button>
+                        )}
+
                         <Text
                           borderRadius={"0"}
                           bg={"transparent"}
                           m={"0 5px 0 5px"}
                         >
-                          1
+                          {quantity > 1 ? quantity : 1}
                         </Text>
                         <Button
                           borderRadius={"0"}
                           _hover={false}
                           bg={"transparent"}
+                          onClick={() => setQuantity(quantity + 1)}
                         >
                           +
                         </Button>
@@ -171,7 +248,7 @@ function Bag() {
                       >
                         <Box>
                           <Text fontWeight={"bold"} fontSize={"16px"}>
-                            rs 128 total saving
+                            ₹128 total savings
                           </Text>
                         </Box>
                         <Box w={"10%"}>
@@ -406,9 +483,58 @@ function Bag() {
               </Box>
             </Box>
           </Flex>
+
           <Box />
+          <Box width={"90%"} m={"auto"} pb={"20px"}>
+            <Flex alignItems={"center"} justifyContent={"space-between"}>
+              <Box>
+                <Flex alignItems={"center"}>
+                  <Text
+                    fontStyle={"normal"}
+                    fontWeight={"700"}
+                    fontSize={"18px"}
+                    lineHeight={"26px"}
+                    color={"#212121"}
+                    textTransform={"uppercase"}
+                  >
+                    DELIVERING TO:
+                  </Text>
+
+                  <Text
+                    ml={"10px"}
+                    fontWeight={"500"}
+                    color={"#212121"}
+                    fontSize={"16px"}
+                    fontStyle={"normal"}
+                  >
+                    monu Uddin
+                  </Text>
+                </Flex>
+                <Text
+                  fontWeight={"400"}
+                  color={"#212121"}
+                  fontSize={"16px"}
+                  fontStyle={"normal"}
+                >
+                  Azad nagar,jamui 22331,Jamui, Bihar, 811307
+                </Text>
+              </Box>
+              <Box>
+                <Button
+                  w={"100%"}
+                  size={"lg"}
+                  bg={"black"}
+                  color={"white"}
+                  _hover={false}
+                >
+                  ₹671 PLACE ORDER
+                </Button>
+              </Box>
+            </Flex>
+          </Box>
         </Box>
       </Box>
+      {/* footer */}
     </Box>
   );
 }

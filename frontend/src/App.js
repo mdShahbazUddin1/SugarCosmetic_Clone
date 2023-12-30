@@ -8,6 +8,7 @@ import Wishlist from "./pages/Wishlist";
 import Referral from "./pages/Referral";
 import Snowflake from "./components/Snowflake";
 import Bag from "./pages/Bag";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/referral" element={<Referral />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );

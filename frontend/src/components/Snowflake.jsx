@@ -10,7 +10,7 @@ const snowfall = keyframes`
 `;
 
 const snowflakeStyle = css`
-  position: absolute;
+  position: fixed;
   top: -500px;
   left: 0;
   width: 100%;

@@ -181,10 +181,13 @@ function Navbar() {
                       />
                     </Box>
                     <Box pos={"relative"}>
-                      <IoBagHandleOutline
-                        fontSize={"25px"}
-                        cursor={"pointer"}
-                      />
+                      <NavLink to={"/bag"}>
+                        <IoBagHandleOutline
+                          fontSize={"25px"}
+                          cursor={"pointer"}
+                        />
+                      </NavLink>
+
                       <Badge
                         bg="#EC407A"
                         color={"white"}

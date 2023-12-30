@@ -13,10 +13,12 @@ const snowflakeStyle = css`
   position: absolute;
   top: -500px;
   left: 0;
-  bottom: 0;
-  right: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1000;
   pointer-events: none;
+  overflow: hidden;
+
   background-image: radial-gradient(4px 4px at 100px 50px, #fff, transparent),
     radial-gradient(6px 6px at 200px 150px, #fff, transparent),
     radial-gradient(3px 3px at 300px 250px, #fff 50%, transparent),

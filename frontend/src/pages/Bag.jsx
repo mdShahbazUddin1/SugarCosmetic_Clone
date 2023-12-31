@@ -4,7 +4,6 @@ import {
   AlertDialogCloseButton,
   AlertDialogContent,
   AlertDialogFooter,
-  AlertDialogHeader,
   AlertDialogOverlay,
   Box,
   Button,
@@ -13,6 +12,7 @@ import {
   Image,
   Input,
   InputGroup,
+  Progress,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -105,6 +105,7 @@ function Bag() {
                     alignItems={"center"}
                     justifyContent={"space-between"}
                     p={"10px"}
+                    borderBottom={"1px solid #EEEEEE"}
                   >
                     <Flex alignItems={"center"}>
                       <Box w={"8%"} border={"1px solid black"}>
@@ -133,18 +134,21 @@ function Bag() {
                       alignItems={"center"}
                       justifyContent={"space-between"}
                     >
-                      {quantity > 0 ? (
-                        <MotionBox
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: quantity > 0 ? 1 : 0, x: 0 }}
-                          exit={{ opacity: 0, x: -20 }}
-                          transition={{ duration: 0.5 }}
-                        >
-                          <RiDeleteBin6Line />
-                        </MotionBox>
-                      ) : (
-                        ""
-                      )}
+                      <Box width={"20%"}>
+                        {quantity > 0 ? (
+                          <MotionBox
+                            initial={{ opacity: 0, x: 10 }}
+                            animate={{ opacity: quantity > 0 ? 1 : 0, x: 0 }}
+                            exit={{ opacity: 0, x: 10 }}
+                            transition={{ duration: 0.6 }}
+                          >
+                            <RiDeleteBin6Line cursor={"pointer"} />
+                          </MotionBox>
+                        ) : (
+                          ""
+                        )}
+                      </Box>
+
                       <Flex
                         alignItems={"center"}
                         border={"1px solid #EEEEEE"}
@@ -153,10 +157,10 @@ function Bag() {
                         {quantity < 1 ? (
                           <>
                             <MotionBox
-                              initial={{ opacity: 0, x: 20 }}
+                              initial={{ opacity: 0, x: -10 }}
                               animate={{ opacity: 1, x: 0 }}
-                              exit={{ opacity: 0, x: 20 }}
-                              transition={{ duration: 0.5 }}
+                              exit={{ opacity: 0, x: -10 }}
+                              transition={{ duration: 0.6 }}
                             >
                               <Button
                                 borderRadius={"0"}
@@ -180,21 +184,58 @@ function Bag() {
                               <AlertDialogOverlay />
 
                               <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  Discard Changes?
-                                </AlertDialogHeader>
                                 <AlertDialogCloseButton />
                                 <AlertDialogBody>
-                                  Are you sure you want to discard all of your
-                                  notes? 44 words will be deleted.
+                                  <Flex
+                                    h={"100%"}
+                                    flexDirection={"column"}
+                                    alignItems={"center"}
+                                    justifyContent={"center"}
+                                    mt={"40px"}
+                                  >
+                                    <Box w={"25%"}>
+                                      <Image
+                                        w={"100%"}
+                                        src="https://in.sugarcosmetics.com/watch.png"
+                                      />
+                                    </Box>
+                                    <Box mt={"20px"}>
+                                      <Text>
+                                        Are you sure you want to remove this
+                                        item?
+                                      </Text>
+                                    </Box>
+                                  </Flex>
                                 </AlertDialogBody>
                                 <AlertDialogFooter>
-                                  <Button ref={cancelRef} onClick={onClose}>
-                                    No
-                                  </Button>
-                                  <Button colorScheme="red" ml={3}>
-                                    Yes
-                                  </Button>
+                                  <Flex
+                                    w={"100%"}
+                                    flexDirection={"column"}
+                                    alignItems={"center"}
+                                    justifyContent={"center"}
+                                  >
+                                    <Box>
+                                      <Button
+                                        ref={cancelRef}
+                                        bg={"black"}
+                                        color={"white"}
+                                        _hover={false}
+                                      >
+                                        Remove
+                                      </Button>
+                                    </Box>
+                                    <Box w={"45%"} mt={"8px"}>
+                                      <Button
+                                        w={"100%"}
+                                        border={"1px solid black"}
+                                        bg={"transparent"}
+                                        color={"black"}
+                                        _hover={false}
+                                      >
+                                        Move To Wishlist
+                                      </Button>
+                                    </Box>
+                                  </Flex>
                                 </AlertDialogFooter>
                               </AlertDialogContent>
                             </AlertDialog>
@@ -214,8 +255,21 @@ function Bag() {
                           borderRadius={"0"}
                           bg={"transparent"}
                           m={"0 5px 0 5px"}
+                          textAlign={"center"}
                         >
                           {quantity > 1 ? quantity : 1}
+                          <Progress
+                            value={2}
+                            size="xs"
+                            colorScheme="black"
+                            bg={"white"}
+                            isIndeterminate
+                            animationDuration={1.8}
+                            width={"20px"}
+                            m={"auto"}
+                            mt={"2px"}
+                            mb={"5px"}
+                          />
                         </Text>
                         <Button
                           borderRadius={"0"}

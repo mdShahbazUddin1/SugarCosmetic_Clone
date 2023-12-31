@@ -1,8 +1,9 @@
 import { Box, Flex, Grid, GridItem, Image } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import ProductCardSlider from "../components/ProductCardSlider";
 
+const BASEURL = `http://localhost:8080/`;
 const imageSlide = [
   {
     image:
@@ -74,6 +75,23 @@ const productCardSlide = [
 ];
 
 function HomeScreen() {
+  const [productCardSlide, setProductCardSlide] = useState([]);
+
+  useEffect(() => {
+    const getproduct = async () => {
+      try {
+        const response = await fetch(`${BASEURL}product/getproduct`);
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getproduct();
+  }, []);
   return (
     <>
       <Box mt={"110px"}>

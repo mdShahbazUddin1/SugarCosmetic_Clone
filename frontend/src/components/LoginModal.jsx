@@ -45,7 +45,7 @@ function LoginModal({ isOpen, onClose, token, setVerifiedToken }) {
   const sendOtpPhone = async () => {
     setSendOtpLoading(true);
     try {
-      const response = await fetch(`http://localhost:8080/send-otp`, {
+      const response = await fetch(`http://localhost:8080/user/send-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,7 +67,7 @@ function LoginModal({ isOpen, onClose, token, setVerifiedToken }) {
   const sendVerifyOtpPhone = async () => {
     setVerifyOtpLoading(true);
     try {
-      const response = await fetch(`http://localhost:8080/verify-otp`, {
+      const response = await fetch(`http://localhost:8080/user/verify-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

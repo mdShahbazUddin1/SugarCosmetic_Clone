@@ -6,7 +6,7 @@ import Order from "./pages/Order";
 import Addresses from "./pages/Addresses";
 import Wishlist from "./pages/Wishlist";
 import Referral from "./pages/Referral";
-import Snowflake from "./components/Snowflake";
+// import Snowflake from "./components/Snowflake";
 import Bag from "./pages/Bag";
 import Footer from "./components/Footer";
 
@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Snowflake />
+        {/* <Snowflake /> */}
         <Navbar />
 
         <Routes>

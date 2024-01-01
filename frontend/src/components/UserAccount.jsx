@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { CiShare2 } from "react-icons/ci";
 import { MdContentCopy } from "react-icons/md";
@@ -44,11 +44,15 @@ const userRouteCard = [
 ];
 
 function UserAccount() {
+  const defaultAddress = JSON.parse(localStorage.getItem("addresses"));
+
   const location = useLocation();
+
+  const { firstname, lastname, phonenumber, email } = defaultAddress || "";
   const getLinkColor = (path) => {
     return location.pathname === path ? "pink.500" : "gray.600";
   };
-
+  useEffect(() => {}, [defaultAddress]);
   return (
     <>
       <Box w={"23%"} borderRadius={"10px"}>
@@ -68,13 +72,19 @@ function UserAccount() {
           </Box>
           <Box width={"100%"} m={"auto"} textAlign={"center"} mt={"10px"}>
             <Text color={"white"} fontSize={"18px"} fontWeight={"bold"}>
-              Sugar Fan
+              {defaultAddress &&
+              defaultAddress.firstname &&
+              defaultAddress.lastname
+                ? `${firstname} ${lastname}`
+                : "Sugar Fan"}
             </Text>
             <Text color={"white"} fontSize={"12px"} fontWeight={"bold"}>
-              +91 9931797391
+              {defaultAddress && defaultAddress.phonenumber
+                ? `${phonenumber} `
+                : ""}
             </Text>
             <Text color={"white"} fontSize={"12px"} fontWeight={"bold"}>
-              uddinshahbaz156@gmail.com
+              {defaultAddress && defaultAddress.email ? `${email}` : ""}
             </Text>
           </Box>
           <Box width={"100%"} bg={"white"} borderTopRadius={"15px"} mt={"15px"}>

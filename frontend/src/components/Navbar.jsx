@@ -40,15 +40,20 @@ const productsLink = [
 
 function Navbar() {
   const navigate = useNavigate();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { token, setVerifiedToken } = useContext(AuthContext);
   const [isSearchSuggestionsVisible, setSearchSuggestionsVisible] =
     useState(false);
   const [isLogout, setIsLogout] = useState(false);
+
   const handleHeartIconClick = () => {
-    // Redirect to the wishlist component in the user account
     navigate("/account/wishlist");
   };
+  const defaultAddress = JSON.parse(localStorage.getItem("addresses"));
+
+  const { firstname, lastname } = defaultAddress || "";
+
   return (
     <>
       <Box width={"100%"} position={"fixed"} top={0} zIndex={"999"}>
@@ -136,7 +141,11 @@ function Navbar() {
                     ) : (
                       <>
                         <Text onClick={() => navigate("/account/orders")}>
-                          Hi, Sugar Fan
+                          {defaultAddress &&
+                          defaultAddress.firstname &&
+                          defaultAddress.lastname
+                            ? `Hi,${firstname} ${lastname}`
+                            : "Hi,Sugar Fan"}
                         </Text>
 
                         <IoIosArrowDown

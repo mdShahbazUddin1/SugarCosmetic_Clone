@@ -177,7 +177,13 @@ function ProductCardSlider({ productDetails, heading }) {
           </Flex>
           <Slider {...settings}>
             {productDetails?.map((item, index) => (
-              <Box key={index} width="100%" m="auto" mt="30px">
+              <Box
+                key={item._id}
+                width="100%"
+                m="auto"
+                mt="30px"
+                cursor={"pointer"}
+              >
                 <Flex alignItems="center">
                   <Card maxW="xs" w="259px">
                     <CardBody p="0px 40px 0px 30px">
@@ -250,7 +256,7 @@ function ProductCardSlider({ productDetails, heading }) {
                               colorScheme="black"
                               bg={"#E91E63"}
                               isIndeterminate
-                              animationDuration={1.8}
+                              animationduration={1.8}
                               width={"80px"}
                               m={"auto"}
                               mt={"2px"}

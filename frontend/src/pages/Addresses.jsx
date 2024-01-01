@@ -31,8 +31,7 @@ function Addresses() {
   const [isDefault, setIsDefault] = useState(false);
   const [isGetAddress, setIsGetAddress] = useState([]);
   const [isLoadingAddress, setIsLoadingAddress] = useState({});
-  const { addressToUpdate, setAddressData, clearAddressData } =
-    useAddressContext();
+  const { addressToUpdate, setAddressData } = useAddressContext();
 
   const toast = useToast();
 
@@ -109,6 +108,7 @@ function Addresses() {
           variant: "solid",
           duration: 5000,
         });
+        getAllAdress();
       }
     } catch (error) {
       console.log(error);
@@ -135,6 +135,13 @@ function Addresses() {
       });
       if (res.ok) {
         const { addresses } = await res.json();
+        const defaultAddress = addresses.find((address) => address.setdefault);
+
+        // If a default address is found, update the context
+        if (defaultAddress) {
+          localStorage.setItem("addresses", JSON.stringify(defaultAddress));
+        }
+
         setIsGetAddress(addresses);
       }
     } catch (error) {

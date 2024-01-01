@@ -31,48 +31,48 @@ const imageSlide = [
     alt: "slider-image",
   },
 ];
-const productCardSlide = [
-  {
-    image:
-      "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Fproducts%2F01.jpg%3Fv%3D1679931324&w=256&q=75",
-    title: "Contour De Force Eyes And Face Palette",
-    discountprice: "799.00",
-    price: "671.00",
-    off: "(16% Off)",
-  },
-  {
-    image:
-      "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Ffiles%2Fa_00b52826-78d8-4da0-aba1-fbcbfb39dc33.jpg%3Fv%3D1688228539&w=256&q=75",
-    title: "Contour De Force Eyes And Face Palette",
-    discountprice: "799.00",
-    price: "671.00",
-    off: "(16% Off)",
-  },
-  {
-    image:
-      "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Ffiles%2Fparent1stcard_1_7aa4b700-2b5f-4212-8b56-86889ab8a390.jpg%3Fv%3D1689262362&w=256&q=75",
-    title: "Contour De Force Eyes And Face Palette",
-    discountprice: "799.00",
-    price: "671.00",
-    off: "(16% Off)",
-  },
-  {
-    image:
-      "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Ffiles%2Fparent1stcard_1_7aa4b700-2b5f-4212-8b56-86889ab8a390.jpg%3Fv%3D1689262362&w=256&q=75",
-    title: "Contour De Force Eyes And Face Palette",
-    discountprice: "799.00",
-    price: "671.00",
-    off: "(16% Off)",
-  },
-  {
-    image:
-      "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Fproducts%2FKohl-Of-Honour-Intense-Kajal-PDP-images-Parent-page.jpg%3Fv%3D1679673305&w=256&q=75",
-    title: "Contour De Force Eyes And Face Palette",
-    discountprice: "799.00",
-    price: "671.00",
-    off: "(16% Off)",
-  },
-];
+// const productCardSlide = [
+//   {
+//     image:
+//       "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Fproducts%2F01.jpg%3Fv%3D1679931324&w=256&q=75",
+//     title: "Contour De Force Eyes And Face Palette",
+//     discountprice: "799.00",
+//     price: "671.00",
+//     off: "(16% Off)",
+//   },
+//   {
+//     image:
+//       "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Ffiles%2Fa_00b52826-78d8-4da0-aba1-fbcbfb39dc33.jpg%3Fv%3D1688228539&w=256&q=75",
+//     title: "Contour De Force Eyes And Face Palette",
+//     discountprice: "799.00",
+//     price: "671.00",
+//     off: "(16% Off)",
+//   },
+//   {
+//     image:
+//       "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Ffiles%2Fparent1stcard_1_7aa4b700-2b5f-4212-8b56-86889ab8a390.jpg%3Fv%3D1689262362&w=256&q=75",
+//     title: "Contour De Force Eyes And Face Palette",
+//     discountprice: "799.00",
+//     price: "671.00",
+//     off: "(16% Off)",
+//   },
+//   {
+//     image:
+//       "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Ffiles%2Fparent1stcard_1_7aa4b700-2b5f-4212-8b56-86889ab8a390.jpg%3Fv%3D1689262362&w=256&q=75",
+//     title: "Contour De Force Eyes And Face Palette",
+//     discountprice: "799.00",
+//     price: "671.00",
+//     off: "(16% Off)",
+//   },
+//   {
+//     image:
+//       "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Fproducts%2FKohl-Of-Honour-Intense-Kajal-PDP-images-Parent-page.jpg%3Fv%3D1679673305&w=256&q=75",
+//     title: "Contour De Force Eyes And Face Palette",
+//     discountprice: "799.00",
+//     price: "671.00",
+//     off: "(16% Off)",
+//   },
+// ];
 
 function HomeScreen() {
   const [productCardSlide, setProductCardSlide] = useState([]);
@@ -84,7 +84,7 @@ function HomeScreen() {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
+          setProductCardSlide(data.Bestsellers);
         }
       } catch (error) {
         console.log(error);
@@ -92,6 +92,7 @@ function HomeScreen() {
     };
     getproduct();
   }, []);
+
   return (
     <>
       <Box mt={"110px"}>

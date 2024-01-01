@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema({
       pincode: { type: String, require: true },
       state: { type: String, require: true },
       city: { type: String, require: true },
-      setdefault: { type: String, require: true, default: false },
+      setdefault: { type: Boolean, require: true, default: false },
     },
   ],
   created_at: {

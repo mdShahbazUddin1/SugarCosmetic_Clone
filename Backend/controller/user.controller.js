@@ -154,6 +154,8 @@ const updateAddress = async (req, res) => {
     if (!addressToUpdate) {
       return res.status(404).json({ error: "Address not found" });
     }
+
+    // Update other properties based on req.body
     addressToUpdate.firstname = req.body.firstname || addressToUpdate.firstname;
     addressToUpdate.lastname = req.body.lastname || addressToUpdate.lastname;
     addressToUpdate.phonenumber =
@@ -161,8 +163,21 @@ const updateAddress = async (req, res) => {
     addressToUpdate.houseno = req.body.houseno || addressToUpdate.houseno;
     addressToUpdate.area = req.body.area || addressToUpdate.area;
     addressToUpdate.pincode = req.body.pincode || addressToUpdate.pincode;
-    addressToUpdate.setdefault =
-      req.body.setdefault || addressToUpdate.setdefault;
+
+    // Update setdefault if provided in req.body
+    if (req.body.hasOwnProperty("setdefault")) {
+      addressToUpdate.setdefault = req.body.setdefault;
+
+      // If setting as default, set others to false
+      if (req.body.setdefault) {
+        user.addresses.forEach((address) => {
+          if (address._id.toString() !== addressId) {
+            address.setdefault = false;
+          }
+        });
+      }
+    }
+
     await user.save();
 
     res.status(200).json({
@@ -177,17 +192,18 @@ const updateAddress = async (req, res) => {
 const deleteAddress = async (req, res) => {
   const userId = req.userId;
   const { addressId } = req.params;
+
   try {
     const user = await UserModel.findById(userId);
-    if (!user) return res.status(404).send("usernot found");
+    if (!user) return res.status(404).send("User not found");
 
     const addressToDelete = user.addresses.id(addressId);
-
     if (!addressToDelete) {
       return res.status(404).json({ error: "Address not found" });
     }
 
-    addressToDelete.remove();
+    // Using pull method to remove the subdocument
+    user.addresses.pull({ _id: addressId });
     await user.save();
 
     res.status(200).json({
@@ -195,6 +211,28 @@ const deleteAddress = async (req, res) => {
       address: addressToDelete,
     });
   } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const getAddress = async (req, res) => {
+  const userId = req.userId; // Assuming you have middleware to extract userId from the token
+
+  try {
+    // Find the user by ID
+    const user = await UserModel.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Retrieve all addresses for the user
+    const addresses = user.addresses;
+
+    // Send the addresses in the response
+    res.status(200).json({ addresses });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -225,4 +263,5 @@ module.exports = {
   updateAddress,
   deleteAddress,
   logout,
+  getAddress,
 };

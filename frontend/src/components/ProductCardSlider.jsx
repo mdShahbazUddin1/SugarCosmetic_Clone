@@ -31,24 +31,53 @@ function ProductCardSlider({ productDetails, heading }) {
     const newLikedProducts = [...likedProducts];
     newLikedProducts[index] = !newLikedProducts[index];
     setLikedProducts(newLikedProducts);
-    if (newLikedProducts[index]) {
-      toast({
-        title: `Added to wishlist`,
-        position: "bottom-left",
-        isClosable: true,
-        status: "success",
-        variant: "solid",
-        duration: 5000,
-      });
-    } else {
-      toast({
-        title: `Removed from wishlist`,
-        position: "bottom-left",
-        isClosable: true,
-        status: "warning", // You can use a different status for removal
-        variant: "solid",
-        duration: 5000,
-      });
+    const productDetailsId = productDetails?.[index]?._id;
+    if (productDetailsId) {
+      const method = newLikedProducts[index] ? "POST" : "DELETE";
+      const endpoint = newLikedProducts[index]
+        ? `http://localhost:8080/wishlist/addToWishlist/${productDetailsId}`
+        : `http://localhost:8080/wishlist/removeFromWishlist/${productDetailsId}`;
+
+      const handleWishlistAction = async () => {
+        try {
+          const res = await fetch(endpoint, {
+            method,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: localStorage.getItem("token"),
+            },
+          });
+
+          if (res.ok) {
+            const toastMessage = newLikedProducts[index]
+              ? `Added to wishlist`
+              : `Removed from wishlist`;
+
+            toast({
+              title: toastMessage,
+              position: "bottom-left",
+              isClosable: true,
+              status: newLikedProducts[index] ? "success" : "warning",
+              variant: "solid",
+              duration: 5000,
+            });
+          }
+        } catch (error) {
+          console.error(error);
+          // Handle the error if needed
+          toast({
+            title: "Error",
+            description: "Failed to update wishlist",
+            position: "bottom-left",
+            isClosable: true,
+            status: "error",
+            variant: "solid",
+            duration: 5000,
+          });
+        }
+      };
+
+      handleWishlistAction();
     }
   };
 
@@ -171,10 +200,10 @@ function ProductCardSlider({ productDetails, heading }) {
                             fontWeight="bold"
                             textDecorationLine={"line-through"}
                           >
-                            ₹{item.discountprice}
+                            {item.discountprice}
                           </Text>
                           <Text fontWeight="bold" fontSize="18px">
-                            ₹{item.price}
+                            {item.price}
                           </Text>
                           <Text
                             fontWeight="bold"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -19,80 +19,71 @@ import {
 import { AiFillHeart } from "react-icons/ai";
 import { NavLink } from "react-router-dom";
 
-const productDetails = [
-  {
-    image:
-      "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Fproducts%2F01.jpg%3Fv%3D1679931324&w=256&q=75",
-    title: "Contour De Force Eyes And Face Palette",
-    discountprice: "799.00",
-    price: "671.00",
-    off: "(16% Off)",
-  },
-  {
-    image:
-      "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Ffiles%2Fa_00b52826-78d8-4da0-aba1-fbcbfb39dc33.jpg%3Fv%3D1688228539&w=256&q=75",
-    title: "Contour De Force Eyes And Face Palette",
-    discountprice: "799.00",
-    price: "671.00",
-    off: "(16% Off)",
-  },
-  {
-    image:
-      "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Ffiles%2Fparent1stcard_1_7aa4b700-2b5f-4212-8b56-86889ab8a390.jpg%3Fv%3D1689262362&w=256&q=75",
-    title: "Contour De Force Eyes And Face Palette",
-    discountprice: "799.00",
-    price: "671.00",
-    off: "(16% Off)",
-  },
-  {
-    image:
-      "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Ffiles%2Fparent1stcard_1_7aa4b700-2b5f-4212-8b56-86889ab8a390.jpg%3Fv%3D1689262362&w=256&q=75",
-    title: "Contour De Force Eyes And Face Palette",
-    discountprice: "799.00",
-    price: "671.00",
-    off: "(16% Off)",
-  },
-  {
-    image:
-      "https://in.sugarcosmetics.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0906%2F2558%2Fproducts%2FKohl-Of-Honour-Intense-Kajal-PDP-images-Parent-page.jpg%3Fv%3D1679673305&w=256&q=75",
-    title: "Contour De Force Eyes And Face Palette",
-    discountprice: "799.00",
-    price: "671.00",
-    off: "(16% Off)",
-  },
-];
-
 function Wishlist() {
-  const [likedProducts, setLikedProducts] = useState([]);
+  const [productDetails, setProductDetails] = useState([]);
   const [loadingStates, setLoadingStates] = useState(
     Array(productDetails.length).fill(false)
   );
   const toast = useToast();
 
-  const handleLikeClick = (index) => {
-    const newLikedProducts = [...likedProducts];
-    newLikedProducts[index] = !newLikedProducts[index];
-    setLikedProducts(newLikedProducts);
-    if (newLikedProducts[index]) {
-      toast({
-        title: `Added to wishlist`,
-        position: "bottom-left",
-        isClosable: true,
-        status: "success",
-        variant: "solid",
-        duration: 5000,
-      });
-    } else {
-      toast({
-        title: `Removed from wishlist`,
-        position: "bottom-left",
-        isClosable: true,
-        status: "warning", // You can use a different status for removal
-        variant: "solid",
-        duration: 5000,
-      });
+  const handleLikeClick = async (productId) => {
+    try {
+      const res = await fetch(
+        `http://localhost:8080/wishlist/removeFromWishlist/${productId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+
+      if (res.ok) {
+        // Remove the product from the state or update as needed
+        setProductDetails((prevProducts) =>
+          prevProducts.filter((product) => product._id !== productId)
+        );
+
+        toast({
+          title: `Removed from wishlist`,
+          position: "bottom-left",
+          isClosable: true,
+          status: "warning",
+          variant: "solid",
+          duration: 5000,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      // Handle the error if needed
     }
   };
+  useEffect(() => {
+    const fetchWishlistItems = async () => {
+      try {
+        const res = await fetch("http://localhost:8080/wishlist/getwishlist", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
+          },
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          // Set the wishlist items in the state
+          console.log(data.wishlistItems);
+          setProductDetails(data.wishlistItems);
+        }
+      } catch (error) {
+        console.error(error);
+        // Handle the error if needed
+      }
+    };
+
+    fetchWishlistItems();
+  }, [productDetails]);
 
   const handleAddToBagClick = (index) => {
     const newLoadingStates = [...loadingStates];
@@ -160,12 +151,12 @@ function Wishlist() {
                           <Image
                             width="100%"
                             h="220px"
-                            src={item.image}
+                            src={item.productDetails.image}
                             borderRadius="lg"
                           />
                           <Stack mt="20px" w={"100%"}>
-                            <Text fontSize="small" textAlign="center">
-                              {item.title}
+                            <Text fontSize="14px" textAlign="center">
+                              {item.productDetails.title}
                             </Text>
                             <Flex
                               alignItems="center"
@@ -176,17 +167,17 @@ function Wishlist() {
                                 fontWeight="bold"
                                 textDecorationLine={"line-through"}
                               >
-                                ₹{item.discountprice}
+                                {item.productDetails.discountprice}
                               </Text>
                               <Text fontWeight="bold" fontSize="18px">
-                                ₹{item.price}
+                                {item.productDetails.price}
                               </Text>
                               <Text
                                 fontWeight="bold"
                                 fontSize="13px"
                                 color="#E91E63"
                               >
-                                {item.off}
+                                {item.productDetails.off}
                               </Text>
                             </Flex>
                           </Stack>
@@ -200,14 +191,11 @@ function Wishlist() {
                               _hover={false}
                               variant="unstyled"
                               p={1}
-                              onClick={() => handleLikeClick(index)}
+                              onClick={() =>
+                                handleLikeClick(item.productDetails._id)
+                              }
                             >
-                              <AiFillHeart
-                                fontSize="30px"
-                                color={
-                                  likedProducts[index] ? "#E91E63" : "#BDBDBD"
-                                }
-                              />
+                              <AiFillHeart fontSize="30px" color={"black"} />
                             </Button>
                             <Button
                               variant="unstyled"

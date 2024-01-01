@@ -13,5 +13,6 @@ userRoute.delete(
   userController.deleteAddress
 );
 userRoute.get("/logout", auth, userController.logout);
+userRoute.get("/getaddress", auth, userController.getAddress);
 
 module.exports = { userRoute };

@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import RoutingLocationNav from "../components/RoutingLocationNav";
 import UserAccount from "../components/UserAccount";
 import Order from "./Order";
@@ -42,7 +42,11 @@ function AccountOrder() {
         <RoutingLocationNav />
         <Box bg={"#F5F5F5"} p={"20px 0 20px 0"}>
           <Box width={"95%"} m={"auto"}>
-            <Flex alignItems={"start"} justifyContent={"space-between"}>
+            <Flex
+              alignItems={"start"}
+              justifyContent={"space-between"}
+              gap={"20px"}
+            >
               <UserAccount />
 
               {/* i wantt to render ui of other routee */}

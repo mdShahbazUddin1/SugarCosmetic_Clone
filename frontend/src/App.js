@@ -9,6 +9,7 @@ import Referral from "./pages/Referral";
 // import Snowflake from "./components/Snowflake";
 import Bag from "./pages/Bag";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollTop";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
       <BrowserRouter>
         {/* <Snowflake /> */}
         <Navbar />
-
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/account/*" element={<AccountOrder />} />

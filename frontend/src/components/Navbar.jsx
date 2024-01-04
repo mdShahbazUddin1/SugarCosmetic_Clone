@@ -42,7 +42,7 @@ function Navbar() {
   const navigate = useNavigate();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { token, setVerifiedToken } = useContext(AuthContext);
+  const { token, setVerifiedToken, bagItemCount } = useContext(AuthContext);
   const [isSearchSuggestionsVisible, setSearchSuggestionsVisible] =
     useState(false);
   const [isLogout, setIsLogout] = useState(false);
@@ -206,7 +206,7 @@ function Navbar() {
                         right="-1"
                         fontSize={"11px"}
                       >
-                        {/* {notificationCount} */} 3
+                        {bagItemCount > 0 ? bagItemCount : null}
                       </Badge>
                     </Box>
                     <Box>

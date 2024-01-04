@@ -40,7 +40,6 @@ function Wishlist() {
       );
 
       if (res.ok) {
-        // Remove the product from the state or update as needed
         setProductDetails((prevProducts) =>
           prevProducts.filter((product) => product._id !== productId)
         );
@@ -56,7 +55,6 @@ function Wishlist() {
       }
     } catch (error) {
       console.error(error);
-      // Handle the error if needed
     }
   };
   useEffect(() => {
@@ -72,8 +70,7 @@ function Wishlist() {
 
         if (res.ok) {
           const data = await res.json();
-          // Set the wishlist items in the state
-          console.log(data.wishlistItems);
+
           setProductDetails(data.wishlistItems);
         }
       } catch (error) {

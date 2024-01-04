@@ -86,19 +86,47 @@ function ProductCardSlider({ productDetails, heading }) {
     newLoadingStates[index] = true;
     setLoadingStates(newLoadingStates);
 
-    setTimeout(() => {
-      const updatedLoadingStates = [...newLoadingStates];
-      updatedLoadingStates[index] = false;
-      setLoadingStates(updatedLoadingStates);
-      toast({
-        title: "Item Added Successfully",
-        position: "bottom-left",
-        isClosable: true,
-        status: "success",
-        variant: "solid",
-        duration: 5000,
-      });
-    }, 2000);
+    const productDetailsId = productDetails?.[index]?._id;
+
+    if (productDetailsId) {
+      const additemToCart = async () => {
+        try {
+          const res = await fetch(
+            `http://localhost:8080/cart/addToCart/${productDetailsId}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: localStorage.getItem("token"),
+              },
+            }
+          );
+          if (res.ok) {
+            const updatedLoadingStates = [...newLoadingStates];
+            updatedLoadingStates[index] = false;
+            setLoadingStates(updatedLoadingStates);
+            toast({
+              title: "Item Added Successfully",
+              position: "bottom-left",
+              isClosable: true,
+              status: "success",
+              variant: "solid",
+              duration: 5000,
+            });
+          }
+        } catch (error) {
+          toast({
+            title: `${error}`,
+            position: "bottom-left",
+            isClosable: true,
+            status: "warning",
+            variant: "solid",
+            duration: 5000,
+          });
+        }
+      };
+      additemToCart();
+    }
   };
 
   const PrevArrow = ({ onClick }) => (
@@ -209,7 +237,7 @@ function ProductCardSlider({ productDetails, heading }) {
                             {item.discountprice}
                           </Text>
                           <Text fontWeight="bold" fontSize="18px">
-                            {item.price}
+                            ₹{item.price}
                           </Text>
                           <Text
                             fontWeight="bold"

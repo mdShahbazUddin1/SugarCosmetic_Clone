@@ -6,6 +6,13 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   // Initialize the token from local storage on component mount
   const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [bagItemCount, setBagItemCount] = useState(
+    Number(localStorage.getItem("bagItemCount")) || 0
+  );
+
+  useEffect(() => {
+    localStorage.setItem("bagItemCount", bagItemCount.toString());
+  }, [bagItemCount]);
 
   // Update local storage whenever the token changes
   useEffect(() => {
@@ -15,9 +22,15 @@ const AuthProvider = ({ children }) => {
   const setVerifiedToken = (newToken) => {
     setToken(newToken);
   };
+  // Function to update bag count
+  const updateBagItemCount = (count) => {
+    setBagItemCount(count);
+  };
 
   return (
-    <AuthContext.Provider value={{ token, setVerifiedToken }}>
+    <AuthContext.Provider
+      value={{ token, setVerifiedToken, bagItemCount, updateBagItemCount }}
+    >
       {children}
     </AuthContext.Provider>
   );

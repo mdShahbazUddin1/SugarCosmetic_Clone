@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 function Order() {
   return (
     <>
-      <Box w={"75%"} h={"686px"} bg={"white"} borderRadius={"10px"}>
+      <Box w={"100%"} h={"686px"} bg={"white"} borderRadius={"10px"}>
         <Flex
           h={"100%"}
           flexDirection="column"

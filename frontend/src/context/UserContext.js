@@ -6,6 +6,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   // Initialize the token from local storage on component mount
   const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [isAuth, setAuth] = useState(false);
   const [bagItemCount, setBagItemCount] = useState(
     Number(localStorage.getItem("bagItemCount")) || 0
   );
@@ -29,7 +30,14 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ token, setVerifiedToken, bagItemCount, updateBagItemCount }}
+      value={{
+        token,
+        setVerifiedToken,
+        bagItemCount,
+        updateBagItemCount,
+        isAuth,
+        setAuth,
+      }}
     >
       {children}
     </AuthContext.Provider>

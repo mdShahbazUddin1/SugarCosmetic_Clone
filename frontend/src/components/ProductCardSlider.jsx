@@ -30,7 +30,7 @@ function ProductCardSlider({ productDetails, heading }) {
   const handleLikeClick = (index) => {
     const newLikedProducts = [...likedProducts];
     newLikedProducts[index] = !newLikedProducts[index];
-    setLikedProducts(newLikedProducts);
+
     const productDetailsId = productDetails?.[index]?._id;
     if (productDetailsId) {
       const method = newLikedProducts[index] ? "POST" : "DELETE";
@@ -49,6 +49,7 @@ function ProductCardSlider({ productDetails, heading }) {
           });
 
           if (res.ok) {
+            setLikedProducts(newLikedProducts);
             const toastMessage = newLikedProducts[index]
               ? `Added to wishlist`
               : `Removed from wishlist`;
@@ -58,6 +59,20 @@ function ProductCardSlider({ productDetails, heading }) {
               position: "bottom-left",
               isClosable: true,
               status: newLikedProducts[index] ? "success" : "warning",
+              variant: "solid",
+              duration: 5000,
+            });
+          }
+          if (res.status === 400 || res.status === 404) {
+            toast({
+              title: `${
+                res.status === 400
+                  ? "Item is already in wishlist"
+                  : "Loggin to add in wishlist"
+              } `,
+              position: "bottom-left",
+              isClosable: true,
+              status: "warning",
               variant: "solid",
               duration: 5000,
             });
@@ -110,6 +125,23 @@ function ProductCardSlider({ productDetails, heading }) {
               position: "bottom-left",
               isClosable: true,
               status: "success",
+              variant: "solid",
+              duration: 5000,
+            });
+          }
+          if (res.status === 404 || res.status === 400) {
+            const updatedLoadingStates = [...newLoadingStates];
+            updatedLoadingStates[index] = false;
+            setLoadingStates(updatedLoadingStates);
+            toast({
+              title: `${
+                res.status === 400
+                  ? "Item is already in cart"
+                  : "Loggin to add in cart"
+              } `,
+              position: "bottom-left",
+              isClosable: true,
+              status: "warning",
               variant: "solid",
               duration: 5000,
             });

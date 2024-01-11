@@ -139,7 +139,7 @@ function Wishlist() {
         ) : (
           <Grid w={"100%"} templateColumns="repeat(3, 1fr)" gap={6}>
             {productDetails?.map((item, index) => (
-              <GridItem w={"100%"}>
+              <GridItem w={"100%"} key={item._id}>
                 <Box width={"100%"}>
                   <Box width="100%" m="auto">
                     <Flex alignItems="center">

@@ -29,12 +29,13 @@ import { MotionBox } from "../components/MotionBox";
 import RoutingLocationNav from "../components/RoutingLocationNav";
 import Order from "./Order";
 import { AuthContext } from "../context/UserContext";
+import LoginModal from "../components/LoginModal";
 
 function Bag() {
   const [isCartItem, setCartItem] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [totalSubtotal, setTotalSubtotal] = useState(0);
-  const { updateBagItemCount } = useContext(AuthContext);
+  const { updateBagItemCount, token } = useContext(AuthContext);
   const [isUserInfo, setIsUserInfo] = useState([]);
   const toast = useToast();
   const cancelRef = useRef();
@@ -137,6 +138,10 @@ function Bag() {
     });
 
     return { totalSubtotal, totalDiscount };
+  };
+
+  const openLoginModal = () => {
+    return <LoginModal />;
   };
 
   return (
@@ -696,6 +701,9 @@ function Bag() {
                       bg={"black"}
                       color={"white"}
                       _hover={false}
+                      onClick={() => {
+                        token ? console.log("console") : openLoginModal();
+                      }}
                     >
                       ₹{calculateTotals().totalSubtotal} PLACE ORDER
                     </Button>

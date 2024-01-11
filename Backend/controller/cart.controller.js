@@ -6,7 +6,6 @@ const addToCart = async (req, res) => {
   const userId = req.userId;
   const { productId } = req.params;
 
-  console.log(req.body);
   try {
     const userExists = await UserModel.findById(userId);
     const product = await ProductModel.findById(productId);

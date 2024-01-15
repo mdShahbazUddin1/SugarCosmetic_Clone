@@ -45,13 +45,16 @@ function LoginModal({ isOpen, onClose, token, setVerifiedToken }) {
   const sendOtpPhone = async () => {
     setSendOtpLoading(true);
     try {
-      const response = await fetch(`http://localhost:8080/user/send-otp`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phoneNumber: "+91" + phoneNumber }),
-      });
+      const response = await fetch(
+        `https://excited-moth-shawl.cyclic.app/user/send-otp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ phoneNumber: "+91" + phoneNumber }),
+        }
+      );
       if (response.ok) {
         setSendOtpLoading(false);
         setSendOtp(true);
@@ -67,16 +70,19 @@ function LoginModal({ isOpen, onClose, token, setVerifiedToken }) {
   const sendVerifyOtpPhone = async () => {
     setVerifyOtpLoading(true);
     try {
-      const response = await fetch(`http://localhost:8080/user/verify-otp`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phoneNumber: "+91" + phoneNumber,
-          otp: verifyOtp,
-        }),
-      });
+      const response = await fetch(
+        `https://excited-moth-shawl.cyclic.app/user/verify-otp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phoneNumber: "+91" + phoneNumber,
+            otp: verifyOtp,
+          }),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();

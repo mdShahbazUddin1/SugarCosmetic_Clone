@@ -29,7 +29,7 @@ function Wishlist() {
   const handleLikeClick = async (productId) => {
     try {
       const res = await fetch(
-        `http://localhost:8080/wishlist/removeFromWishlist/${productId}`,
+        `https://excited-moth-shawl.cyclic.app/wishlist/removeFromWishlist/${productId}`,
         {
           method: "DELETE",
           headers: {
@@ -60,13 +60,16 @@ function Wishlist() {
   useEffect(() => {
     const fetchWishlistItems = async () => {
       try {
-        const res = await fetch("http://localhost:8080/wishlist/getwishlist", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("token"),
-          },
-        });
+        const res = await fetch(
+          "https://excited-moth-shawl.cyclic.app/wishlist/getwishlist",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: localStorage.getItem("token"),
+            },
+          }
+        );
 
         if (res.ok) {
           const data = await res.json();

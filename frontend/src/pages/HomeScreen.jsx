@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import ProductCardSlider from "../components/ProductCardSlider";
 
-const BASEURL = `http://localhost:8080/`;
+const BASEURL = `https://excited-moth-shawl.cyclic.app/`;
 const imageSlide = [
   {
     image:

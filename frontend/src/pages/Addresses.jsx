@@ -49,7 +49,7 @@ function Addresses() {
         setdefault: !isDefault,
       };
       const res = await fetch(
-        `http://localhost:8080/user/updateAddress/${addressId}`,
+        `https://excited-moth-shawl.cyclic.app/user/updateAddress/${addressId}`,
         {
           method: "PUT",
           headers: {
@@ -90,14 +90,17 @@ function Addresses() {
       setdefault: isChecked,
     };
     try {
-      const res = await fetch("http://localhost:8080/user/addadress", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token"),
-        },
-        body: JSON.stringify(newAddress),
-      });
+      const res = await fetch(
+        "https://excited-moth-shawl.cyclic.app/user/addadress",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
+          },
+          body: JSON.stringify(newAddress),
+        }
+      );
 
       if (res.ok) {
         toast({
@@ -126,13 +129,16 @@ function Addresses() {
 
   const getAllAdress = async () => {
     try {
-      const res = await fetch("http://localhost:8080/user/getaddress", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token"),
-        },
-      });
+      const res = await fetch(
+        "https://excited-moth-shawl.cyclic.app/user/getaddress",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
       if (res.ok) {
         const { addresses } = await res.json();
         const defaultAddress = addresses.find((address) => address.setdefault);
@@ -167,7 +173,7 @@ function Addresses() {
     console.log(updatedAddress);
     try {
       const res = await fetch(
-        `http://localhost:8080/user/updateAddress/${addressToUpdate._id}`,
+        `https://excited-moth-shawl.cyclic.app/user/updateAddress/${addressToUpdate._id}`,
         {
           method: "PUT",
           headers: {
@@ -211,7 +217,7 @@ function Addresses() {
     console.log(addressId);
     try {
       const res = await fetch(
-        `http://localhost:8080/user/deleteAddress/${addressId}`,
+        `https://excited-moth-shawl.cyclic.app/user/deleteAddress/${addressId}`,
         {
           method: "DELETE",
           headers: {

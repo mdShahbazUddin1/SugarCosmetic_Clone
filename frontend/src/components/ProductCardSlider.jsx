@@ -35,8 +35,8 @@ function ProductCardSlider({ productDetails, heading }) {
     if (productDetailsId) {
       const method = newLikedProducts[index] ? "POST" : "DELETE";
       const endpoint = newLikedProducts[index]
-        ? `http://localhost:8080/wishlist/addToWishlist/${productDetailsId}`
-        : `http://localhost:8080/wishlist/removeFromWishlist/${productDetailsId}`;
+        ? `https://excited-moth-shawl.cyclic.app/wishlist/addToWishlist/${productDetailsId}`
+        : `https://excited-moth-shawl.cyclic.app/wishlist/removeFromWishlist/${productDetailsId}`;
 
       const handleWishlistAction = async () => {
         try {
@@ -107,7 +107,7 @@ function ProductCardSlider({ productDetails, heading }) {
       const additemToCart = async () => {
         try {
           const res = await fetch(
-            `http://localhost:8080/cart/addToCart/${productDetailsId}`,
+            `https://excited-moth-shawl.cyclic.app/cart/addToCart/${productDetailsId}`,
             {
               method: "POST",
               headers: {

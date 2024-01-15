@@ -42,13 +42,16 @@ function Bag() {
 
   const getCartItem = useCallback(async () => {
     try {
-      const res = await fetch(`http://localhost:8080/cart/getCart`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token"),
-        },
-      });
+      const res = await fetch(
+        `https://excited-moth-shawl.cyclic.app/cart/getCart`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
       if (res.ok) {
         const { cartItems, user, totalPrice } = await res.json();
 
@@ -69,7 +72,7 @@ function Bag() {
   const updateQuantity = async (itemId, newQuantity) => {
     try {
       const res = await fetch(
-        `http://localhost:8080/cart/updateCart/${itemId}`,
+        `https://excited-moth-shawl.cyclic.app/cart/updateCart/${itemId}`,
         {
           method: "PATCH",
           headers: {
@@ -95,7 +98,7 @@ function Bag() {
   const deleteCartItem = async (itemId) => {
     try {
       const res = await fetch(
-        `http://localhost:8080/cart/deleteCart/${itemId}`,
+        `https://excited-moth-shawl.cyclic.app/cart/deleteCart/${itemId}`,
         {
           method: "DELETE",
           headers: {

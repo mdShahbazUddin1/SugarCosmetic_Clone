@@ -46,7 +46,7 @@ function LoginModal({ isOpen, onClose, token, setVerifiedToken }) {
     setSendOtpLoading(true);
     try {
       const response = await fetch(
-        `https://excited-moth-shawl.cyclic.app/user/send-otp`,
+        `https://sugar-backend.onrender.com/user/send-otp`,
         {
           method: "POST",
           headers: {
@@ -71,7 +71,7 @@ function LoginModal({ isOpen, onClose, token, setVerifiedToken }) {
     setVerifyOtpLoading(true);
     try {
       const response = await fetch(
-        `https://excited-moth-shawl.cyclic.app/user/verify-otp`,
+        `https://sugar-backend.onrender.com/user/verify-otp`,
         {
           method: "POST",
           headers: {

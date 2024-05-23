@@ -43,7 +43,7 @@ function Bag() {
   const getCartItem = useCallback(async () => {
     try {
       const res = await fetch(
-        `https://excited-moth-shawl.cyclic.app/cart/getCart`,
+        `https://sugar-backend.onrender.com/cart/getCart`,
         {
           method: "GET",
           headers: {
@@ -72,7 +72,7 @@ function Bag() {
   const updateQuantity = async (itemId, newQuantity) => {
     try {
       const res = await fetch(
-        `https://excited-moth-shawl.cyclic.app/cart/updateCart/${itemId}`,
+        `https://sugar-backend.onrender.com/cart/updateCart/${itemId}`,
         {
           method: "PATCH",
           headers: {
@@ -98,7 +98,7 @@ function Bag() {
   const deleteCartItem = async (itemId) => {
     try {
       const res = await fetch(
-        `https://excited-moth-shawl.cyclic.app/cart/deleteCart/${itemId}`,
+        `https://sugar-backend.onrender.com/cart/deleteCart/${itemId}`,
         {
           method: "DELETE",
           headers: {

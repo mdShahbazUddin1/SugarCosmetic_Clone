@@ -35,8 +35,8 @@ function ProductCardSlider({ productDetails, heading }) {
     if (productDetailsId) {
       const method = newLikedProducts[index] ? "POST" : "DELETE";
       const endpoint = newLikedProducts[index]
-        ? `https://excited-moth-shawl.cyclic.app/wishlist/addToWishlist/${productDetailsId}`
-        : `https://excited-moth-shawl.cyclic.app/wishlist/removeFromWishlist/${productDetailsId}`;
+        ? `https://sugar-backend.onrender.com/wishlist/addToWishlist/${productDetailsId}`
+        : `https://sugar-backend.onrender.com/wishlist/removeFromWishlist/${productDetailsId}`;
 
       const handleWishlistAction = async () => {
         try {
@@ -107,7 +107,7 @@ function ProductCardSlider({ productDetails, heading }) {
       const additemToCart = async () => {
         try {
           const res = await fetch(
-            `https://excited-moth-shawl.cyclic.app/cart/addToCart/${productDetailsId}`,
+            `https://sugar-backend.onrender.com/cart/addToCart/${productDetailsId}`,
             {
               method: "POST",
               headers: {

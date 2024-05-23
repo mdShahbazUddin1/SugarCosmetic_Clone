@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import ProductCardSlider from "../components/ProductCardSlider";
 
-const BASEURL = `https://excited-moth-shawl.cyclic.app/`;
+const BASEURL = `https://sugar-backend.onrender.com/`;
 const imageSlide = [
   {
     image:

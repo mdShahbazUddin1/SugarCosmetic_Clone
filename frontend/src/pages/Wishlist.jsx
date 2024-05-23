@@ -29,7 +29,7 @@ function Wishlist() {
   const handleLikeClick = async (productId) => {
     try {
       const res = await fetch(
-        `https://excited-moth-shawl.cyclic.app/wishlist/removeFromWishlist/${productId}`,
+        `https://sugar-backend.onrender.com/wishlist/removeFromWishlist/${productId}`,
         {
           method: "DELETE",
           headers: {
@@ -61,7 +61,7 @@ function Wishlist() {
     const fetchWishlistItems = async () => {
       try {
         const res = await fetch(
-          "https://excited-moth-shawl.cyclic.app/wishlist/getwishlist",
+          "https://sugar-backend.onrender.com/wishlist/getwishlist",
           {
             method: "GET",
             headers: {

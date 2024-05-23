@@ -49,7 +49,7 @@ function Addresses() {
         setdefault: !isDefault,
       };
       const res = await fetch(
-        `https://excited-moth-shawl.cyclic.app/user/updateAddress/${addressId}`,
+        `https://sugar-backend.onrender.com/user/updateAddress/${addressId}`,
         {
           method: "PUT",
           headers: {
@@ -91,7 +91,7 @@ function Addresses() {
     };
     try {
       const res = await fetch(
-        "https://excited-moth-shawl.cyclic.app/user/addadress",
+        "https://sugar-backend.onrender.com/user/addadress",
         {
           method: "POST",
           headers: {
@@ -130,7 +130,7 @@ function Addresses() {
   const getAllAdress = async () => {
     try {
       const res = await fetch(
-        "https://excited-moth-shawl.cyclic.app/user/getaddress",
+        "https://sugar-backend.onrender.com/user/getaddress",
         {
           method: "GET",
           headers: {
@@ -173,7 +173,7 @@ function Addresses() {
     console.log(updatedAddress);
     try {
       const res = await fetch(
-        `https://excited-moth-shawl.cyclic.app/user/updateAddress/${addressToUpdate._id}`,
+        `https://sugar-backend.onrender.com/user/updateAddress/${addressToUpdate._id}`,
         {
           method: "PUT",
           headers: {
@@ -217,7 +217,7 @@ function Addresses() {
     console.log(addressId);
     try {
       const res = await fetch(
-        `https://excited-moth-shawl.cyclic.app/user/deleteAddress/${addressId}`,
+        `https://sugar-backend.onrender.com/user/deleteAddress/${addressId}`,
         {
           method: "DELETE",
           headers: {
